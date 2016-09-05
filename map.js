@@ -10,6 +10,7 @@ var beastPos = [];
 var score = 0;
 var moves = [0];
 var levelCount;
+var turn = false;
 
 var worldWidth = 20;
 var worldHeight = 15;
@@ -58,11 +59,19 @@ function play() {
     canvas.height = worldHeight * tileHeight;
     ctx = canvas.getContext("2d");
 
+    ctx.font = "40px Courier";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText("Enter to start", canvas.width/2, canvas.height/2);
+
+
+
     levelCount = 1;
     score = 0;
     moves = [0];
-    recreate();
-
+    if(event.keyCode == 13) {
+        recreate();
+    }
 }
 function recreate() {
     if(levelCount < 6){
@@ -282,8 +291,8 @@ function placeChar(){
             }
         }
     }
-    beastWorld[worldWidth - 2][worldHeight - 2] = beast;
-    beastPos = [worldWidth - 2, worldHeight - 2];
+    beastWorld[worldWidth - 2][y] = beast;
+    beastPos = [worldWidth - 2, y];
 }
 
 function interact(){
@@ -351,40 +360,31 @@ function beastHandler(x, y, vert){
     }
 }
 function hunt(){
-   if(levelCount < 11){
-       if(beastPos[0] > charPos[0]){
-           beastHandler(-1, 0, false);
-       } else if(beastPos[0] < charPos[0]){
-           beastHandler(1, 0, false);
-       } else if(beastPos[1] > charPos[1]){
-           beastHandler(0, -1, true);
-       } else if(beastPos[1] < charPos[1]){
-           beastHandler(0, 1, true);
-       }
-   } else{
-       if(beastPos[0] > charPos[0]){
-           beastHandler(-1, 0, false);
-       } else if(beastPos[0] < charPos[0]){
-           beastHandler(1, 0, false);
-       }
-       if(beastPos[1] > charPos[1]){
-           beastHandler(0, -1, true);
-       } else if(beastPos[1] < charPos[1]){
-           beastHandler(0, 1, true);
-       }
-   }
+    if (turn) {
+        if (beastPos[0] > charPos[0]) {
+            beastHandler(-1, 0, false);
+        } else if (beastPos[0] < charPos[0]) {
+            beastHandler(1, 0, false);
+        }
+        if (beastPos[1] > charPos[1]) {
+            beastHandler(0, -1, true);
+        } else if (beastPos[1] < charPos[1]) {
+            beastHandler(0, 1, true);
+        }
+    }
+    turn = !turn;
 }
 
 function gameOver(){
     if((moves[moves.length - 2] == wall && moves[moves.length - 1] == portal) ||
         (switched && beastPos[0] == charPos[0] && beastPos[1] == charPos[1])) {
-        ctx.fillStyle = '#000000';
+        ctx.fillStyle = '#443333';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.font = "80px myfont";
+        ctx.font = "80px Courier";
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.fillText("Game Over", canvas.width/2, canvas.height/2);
-        ctx.font = "40px myfont";
+        ctx.font = "40px Courier";
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.fillText("Hit Enter to Play Again", canvas.width/2, canvas.height*3/5);
@@ -421,13 +421,13 @@ function redraw() {
             ctx.fillRect(x*tileWidth, y*tileHeight, tileWidth, tileHeight);
         }
     }
-    ctx.font = "bold 30px myfont";
+    ctx.font = "bold 30px Courier";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.fillText(levelCount + "." + score, 40, canvas.height-10);
 
     gameOver();
-    requestAnimationFrame(redraw);
+    setInterval(redraw, 100);
 }
 
 // the game's canvas element
