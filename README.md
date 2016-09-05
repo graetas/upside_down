@@ -9,4 +9,5 @@ Entry for js13kgames competition (First time woo)
 - The beast (white) is chasing you everywhere but can only attack in the Upside Down
 - If it catches you, you die
 - If you glitch into a wall, you die
-Good luck
+
+Good luck.
