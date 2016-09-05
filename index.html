@@ -11,10 +11,13 @@
 <body>
     <div>
         <h1>upside_down</h1>
-        <canvas id="gameCanvas" width="800" height="640"></canvas>
+        <canvas id="gameCanvas" width="800" height="640"></canvas> <br>
     </div>
+    <div>
+        <button onclick="move(0, -1, true)">▲</button><br>
+        <button onclick="move(-1, 0, false)">◄</button><button onclick="move(0, 1, true)">▼</button><button onclick="move(1, 0, false)">►</button><br>
 
-
+    </div>
     <script type="text/javascript">
         play();
     </script>
