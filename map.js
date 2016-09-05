@@ -50,9 +50,11 @@ document.addEventListener('keydown', function(event) {
     } else if(event.keyCode == 13) {
         play();
     }
+    
+    
 });
 
-function play() {
+function play(event) {
     //HTML5 stuff
     canvas = document.getElementById('gameCanvas');
     canvas.width = worldWidth * tileWidth;
@@ -62,16 +64,14 @@ function play() {
     ctx.font = "40px Courier";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText("Enter to start", canvas.width/2, canvas.height/2);
-
-
-
+    ctx.fillText("Click to start", canvas.width/2, canvas.height/2);
+    
     levelCount = 1;
     score = 0;
     moves = [0];
-    if(event.keyCode == 13) {
+    document.getElementById("gameCanvas").onclick = function(){
         recreate();
-    }
+    };
 }
 function recreate() {
     if(levelCount < 6){
@@ -387,8 +387,11 @@ function gameOver(){
         ctx.font = "40px Courier";
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
-        ctx.fillText("Hit Enter to Play Again", canvas.width/2, canvas.height*3/5);
+        ctx.fillText("Click to Play Again", canvas.width/2, canvas.height*3/5);
     }
+    document.getElementById("gameCanvas").onclick = function(){
+        play();
+    };
     if(treasureCount == 0){
         recreate();
         levelCount++;
